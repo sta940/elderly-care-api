@@ -17,10 +17,10 @@ export default {
             await User.create({ email, password, role });
             const token = jwt.sign({ email }, 'TOKEN_SECRET', { expiresIn: 6000 });
             sendEmail(email, token, req.hostname);
-            return res.status(200).send({message: 'Account created successfully'});
+            return res.status(200).send({message: null});
         } catch(e) {
             console.log(e);
-            return res.status(500).send({message: 'Could not perform operation at this time, kindly try again later.'});
+            return res.status(500).send({message: 'Server error'});
         }
     },
 
@@ -32,10 +32,11 @@ export default {
                 return res.status(401).send({message: 'Invalid credentials'});
             }
 
-            return res.status(200).send({message: 'Login successfully', data: { token }});
+            const token = jwt.sign({ email }, 'TOKEN_SECRET', { expiresIn: '360d' });
+            return res.status(200).send({message: null, data: { token }});
         } catch(e) {
             console.log(e);
-            return res.status(500).send({message: 'Could not perform operation at this time, kindly try again later.'});
+            return res.status(500).send({message: 'Server error'});
         }
     },
 
