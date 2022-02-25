@@ -15,9 +15,9 @@ export default {
                 return res.status(401).send({message: 'User already exist'});
             }
             await User.create({ email, password, role });
-            const token = jwt.sign({ email }, 'TOKEN_SECRET', { expiresIn: 6000 });
+            const token = jwt.sign({ email }, 'TOKEN_SECRET', { expiresIn: '360d' });
             sendEmail(email, token, req.hostname);
-            return res.status(200).send({message: null});
+            return res.status(200).send({message: null, data: { token }});
         } catch(e) {
             console.log(e);
             return res.status(500).send({message: 'Server error'});
