@@ -9,18 +9,22 @@ const { User } = model;
 export default {
     async signUp(req, res) {
         const {email, password, role} = req.body;
+        const roles = ['social', 'caring']
         try {
-            const user = await User.findOne({where: {[Op.and]: [ {email}, {password} ]}});
+            if (!roles.includes(role)) {
+                return res.status(401).send({message: 'Неверная роль'});
+            }
+            const user = await User.findOne({where: email});
             if (user) {
-                return res.status(401).send({message: 'User already exist'});
+                return res.status(401).send({message: 'Пользователь с такими данными уже существует'});
             }
             await User.create({ email, password, role });
-            const token = jwt.sign({ email }, 'TOKEN_SECRET', { expiresIn: '360d' });
+            const token = jwt.sign({ email, role }, 'TOKEN_SECRET', { expiresIn: '360d' });
             sendEmail(email, token, req.hostname);
             return res.status(200).send({message: null, data: { token }});
         } catch(e) {
             console.log(e);
-            return res.status(500).send({message: 'Server error'});
+            return res.status(500).send({message: 'Ошибка сервера'});
         }
     },
 
@@ -29,14 +33,14 @@ export default {
         try {
             const user = await User.findOne({where: {[Op.and]: [ {email}, {password} ]}});
             if(!user) {
-                return res.status(401).send({message: 'Invalid credentials'});
+                return res.status(401).send({message: 'Неверный логин или пароль'});
             }
 
-            const token = jwt.sign({ email }, 'TOKEN_SECRET', { expiresIn: '360d' });
+            const token = jwt.sign({ email, role: user.role }, 'TOKEN_SECRET', { expiresIn: '360d' });
             return res.status(200).send({message: null, data: { token }});
         } catch(e) {
             console.log(e);
-            return res.status(500).send({message: 'Server error'});
+            return res.status(500).send({message: 'Ошибка сервера'});
         }
     },
 
