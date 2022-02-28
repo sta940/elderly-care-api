@@ -12,11 +12,11 @@ preAuthRoute(app);
 
 app.use(auth);
 
-authRoute(app);
-
 app.get('/', (req, res) => res.status(200).send({
-    message: 'Hello World!',
+    message: 'Health',
 }));
+
+authRoute(app);
 
 const port = 3000;
 
