@@ -14,7 +14,7 @@ export default {
             if (!roles.includes(role)) {
                 return res.status(401).send({message: 'Неверная роль'});
             }
-            const user = await User.findOne({where: email});
+            const user = await User.findOne({ where: { email } });
             if (user) {
                 return res.status(401).send({message: 'Пользователь с такими данными уже существует'});
             }

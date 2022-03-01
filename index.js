@@ -10,11 +10,11 @@ app.use(express.json());
 
 preAuthRoute(app);
 
-app.use(auth);
-
 app.get('/', (req, res) => res.status(200).send({
     message: 'Health',
 }));
+
+app.use(auth);
 
 authRoute(app);
 
