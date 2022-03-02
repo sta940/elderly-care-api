@@ -1,7 +1,8 @@
-const multer = require("multer");
-var fs = require("fs");
-var dir = "./public/images/nov";   // PATH TO UPLOAD FILE
-if (!fs.existsSync(dir)) {  // CREATE DIRECTORY IF NOT FOUND
+import multer from 'multer';
+import fs from 'fs';
+
+const dir = "./public/images";
+if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
 }
 const fileStorageEngine = multer.diskStorage({
@@ -13,12 +14,4 @@ const fileStorageEngine = multer.diskStorage({
     },
 });
 const upload = multer({ storage: fileStorageEngine });
-
-
-const s3 = new aws.S3({
-    accessKeyId: " ",
-    secretAccessKey: " ",
-    Bucket: " "
-})
 module.exports = upload;
-

@@ -1,10 +1,6 @@
-import { Op } from 'sequelize';
 import model from '../models';
-import jwt from 'jsonwebtoken';
-import sendEmail from '../services/mailer'
 
 const { User } = model;
-
 
 export default {
     async userInfo(req, res) {
