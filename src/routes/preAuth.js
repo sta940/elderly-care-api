@@ -12,4 +12,8 @@ export default (app) => {
     app.get('/intro', AppController.getIntro);
     app.get('/introInstructions', AppController.getIntroInstruction);
     app.get('/instructions', AppController.getInstruction);
+    app.get('/caseManagement', AppController.getCaseManagement);
+    app.get('/quality', AppController.getQuality);
+    app.get('/info', AppController.getInfo);
+
 };
