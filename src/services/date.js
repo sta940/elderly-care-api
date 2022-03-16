@@ -38,3 +38,29 @@ export function filterByLastMonth(launches) {
         return month.getTime() < launchDate.getTime() && launchDate.getTime() < today;
     })
 }
+
+export function formatData(items) {
+    const sorted = items.reduce((acc, it) => {
+        const date = new Date(it.createdAt);
+        if (acc[date.getDate()]) {
+            const val = { ...acc };
+            val[date.getDate()].push(it);
+            return val;
+        }
+        return { [date.getDate()]: [it], ...acc };
+    }, {});
+    const res = [];
+
+    Object.values(sorted).forEach((arr) => {
+        const date = arr[0].createdAt;
+        let formattedDate = moment(date).locale('ru').format('LLLL');
+        const textDateArr = formattedDate.split(', ');
+        formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
+        res.push({
+            formattedDate,
+            data: arr
+        })
+    })
+
+    return res;
+}

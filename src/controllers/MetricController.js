@@ -1,5 +1,5 @@
 import model from '../models';
-import {filterByDay, filterByLastMonth, filterByLastWeek} from '../services/date';
+import {filterByDay, filterByLastMonth, filterByLastWeek, formatData} from '../services/date';
 
 const { Metric } = model;
 
@@ -57,9 +57,11 @@ export default {
                     filtered = metrics;
                 }
             }
-            const result = filtered.map((it) => {
+            const formatted = filtered.map((it) => {
                 return { ...it.fields, createdAt: it.createdAt, id: it.id }
-            })
+            });
+            const result = formatData(formatted);
+
             return res.status(200).send({message: null, data: {
                     metrics: result.reverse()
                 }});
