@@ -56,9 +56,13 @@ export function formatData(items) {
         let formattedDate = moment(date).locale('ru').format('LLLL');
         const textDateArr = formattedDate.split(', ');
         formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
+        const formattedArr = arr.map((it) => {
+            let time = moment(it.createdAt).locale('ru').format('LT');
+            return {...it, time}
+        })
         res.push({
             formattedDate,
-            data: arr
+            data: formattedArr
         })
     })
 
