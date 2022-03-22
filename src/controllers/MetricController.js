@@ -98,5 +98,5 @@ export default {
             console.log(e);
             return res.status(500).send('Ошибка сервера');
         }
-    },
+    }
 }

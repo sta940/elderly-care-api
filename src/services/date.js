@@ -57,7 +57,8 @@ export function formatData(items) {
         const textDateArr = formattedDate.split(', ');
         formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
         const formattedArr = arr.map((it) => {
-            let time = moment(it.createdAt).locale('ru').format('LT');
+            let time = moment(it.createdAt).add(3, 'hours').locale('ru').format('LT');
+            console.log(time)
             return {...it, time}
         })
         res.push({
@@ -66,5 +67,46 @@ export function formatData(items) {
         })
     })
 
+    return res;
+}
+
+export function getMedicineSchedule(data, period) {
+    const week = ['пн','вт','ср','чт','пт','сб','вс'];
+    const periodMap = {'day': 1, 'week': 7, 'month': 30}
+    const weekMap = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: []
+    }
+    data.forEach((it) => {
+        it.days.forEach((day) => {
+            weekMap[day].push(it);
+        })
+    })
+
+    const res = [];
+    for (let i = 0; i < periodMap[period]; i++) {
+        const date = moment().add(i, 'days').locale('ru');
+        const weekDay = date.format('dd');
+        const dayKey = week.indexOf(weekDay) + 1;
+
+        let formattedDate = date.format('LLLL');
+        const textDateArr = formattedDate.split(', ');
+        formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
+
+        res.push({
+            formattedDate,
+            data: weekMap[dayKey].sort((a, b) => {
+                return a.time - b.time;
+            }).map((it) => {
+                const stringTime = it.time < 10 ? `0${it.time}:00` : `${it.time}:00`;
+                return {...it.dataValues, stringTime}
+            })
+        })
+    }
     return res;
 }
