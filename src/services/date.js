@@ -100,11 +100,23 @@ export function getMedicineSchedule(data, period) {
 
         res.push({
             formattedDate,
-            data: weekMap[dayKey].sort((a, b) => {
-                return a.time - b.time;
-            }).map((it) => {
-                const stringTime = it.time < 10 ? `0${it.time}:00` : `${it.time}:00`;
-                return {...it.dataValues, stringTime}
+            data: weekMap[dayKey].sort((a,b) => {
+                const time1 = a.time.split(':');
+                const time2 = b.time.split(':');
+                if (time1[0] < time2[0]) {
+                    return -1;
+                }
+                if (time1[0] > time2[0]) {
+                    return 1;
+                } else {
+                    if (time1[1] < time2[1]) {
+                        return -1;
+                    }
+                    if (time1[1] > time2[1]) {
+                        return 1;
+                    }
+                    return 0;
+                }
             })
         })
     }
