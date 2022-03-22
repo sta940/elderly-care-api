@@ -1,5 +1,17 @@
 import moment from 'moment'
 
+export function filterByDay(launches) {
+    const today = new Date();
+    const next = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    next.setUTCHours(24, 0, 0, 0);
+    return launches.filter((launch) => {
+        let launchDate = launch.date || launch.createdAt;
+        launchDate = new Date(launchDate);
+        return today.getTime() < launchDate.getTime() && launchDate.getTime() < next.getTime();
+    })
+}
+
 export function filterByLastWeek(launches) {
     const todayMoment = moment();
     const weekMoment = todayMoment.clone().add(-7,'days')
@@ -9,19 +21,24 @@ export function filterByLastWeek(launches) {
     const week = new Date(weekMoment.format());
     week.setUTCHours(24, 0,0,0);
     return launches.filter((launch) => {
-        const launchDate = launch.createdAt;
-        return week.getTime() < launchDate.getTime() && launchDate.getTime() < today;
+        let launchDate = launch.date || launch.createdAt;
+        launchDate = new Date(launchDate);
+        return week.getTime() < launchDate.getTime() && launchDate.getTime() < today.getTime();
     })
 }
 
-export function filterByDay(launches) {
+export function filterByNextWeek(launches) {
+    const todayMoment = moment();
+    const weekMoment = todayMoment.clone().add(7,'days')
+
     const today = new Date();
-    const next = new Date();
     today.setUTCHours(0, 0, 0, 0);
-    next.setUTCHours(24, 0, 0, 0);
+    const week = new Date(weekMoment.format());
+    week.setUTCHours(0, 0,0,0);
     return launches.filter((launch) => {
-        const launchDate = launch.createdAt;
-        return today.getTime() < launchDate.getTime() && launchDate.getTime() < next;
+        let launchDate = launch.date || launch.createdAt;
+        launchDate = new Date(launchDate);
+        return today.getTime() < launchDate.getTime() && launchDate.getTime() < week.getTime();
     })
 }
 
@@ -34,31 +51,48 @@ export function filterByLastMonth(launches) {
     const month = new Date(monthMoment.format());
     month.setUTCHours(24, 0,0,0);
     return launches.filter((launch) => {
-        const launchDate = launch.createdAt;
-        return month.getTime() < launchDate.getTime() && launchDate.getTime() < today;
+        let launchDate = launch.date || launch.createdAt;
+        launchDate = new Date(launchDate);
+        return month.getTime() < launchDate.getTime() && launchDate.getTime() < today.getTime();
     })
 }
 
+export function filterByNextMonth(launches) {
+    const todayMoment = moment();
+    const monthMoment = todayMoment.clone().add(30,'days')
+
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    const month = new Date(monthMoment.format());
+    month.setUTCHours(0, 0,0,0);
+    return launches.filter((launch) => {
+        let launchDate = launch.date || launch.createdAt;
+        launchDate = new Date(launchDate);
+        return today.getTime() < launchDate.getTime() && launchDate.getTime() < month.getTime();
+    })
+}
+
+
 export function formatData(items) {
     const sorted = items.reduce((acc, it) => {
-        const date = new Date(it.createdAt);
-        if (acc[date.getDate()]) {
+        const date = new Date(it.date);
+        const key = `${date.getDate()}-${date.getMonth()}`
+        if (acc[key]) {
             const val = { ...acc };
-            val[date.getDate()].push(it);
+            val[key].push(it);
             return val;
         }
-        return { [date.getDate()]: [it], ...acc };
+        return { ...acc, [key]: [it] };
     }, {});
     const res = [];
 
     Object.values(sorted).forEach((arr) => {
-        const date = arr[0].createdAt;
+        const date = arr[0].date;
         let formattedDate = moment(date).locale('ru').format('LLLL');
         const textDateArr = formattedDate.split(', ');
         formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
         const formattedArr = arr.map((it) => {
-            let time = moment(it.createdAt).add(3, 'hours').locale('ru').format('LT');
-            console.log(time)
+            let time = moment(it.date).add(3, 'hours').locale('ru').format('LT');
             return {...it, time}
         })
         res.push({

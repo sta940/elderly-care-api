@@ -1,7 +1,10 @@
 import S3 from 'aws-sdk/clients/s3';
 import fs from 'fs';
 import dotenv from 'dotenv';
+import pdf from "pdf-creator-node";
 
+
+const html = fs.readFileSync("template.html", "utf8");
 dotenv.config();
 
 const bucketName = process.env.AWS_BUCKET_NAME;
@@ -15,6 +18,7 @@ const s3 = new S3({
 });
 
 function uploadFile(file) {
+    console.log(file.path)
     const fileStream = fs.createReadStream(file.path);
     const uploadParams = {
         Bucket: bucketName,
@@ -23,4 +27,40 @@ function uploadFile(file) {
     };
     return s3.upload(uploadParams).promise();
 }
-module.exports = { uploadFile };
+
+function uploadPdf() {
+    const options = {
+        format: "A4",
+        orientation: "portrait",
+        border: "10mm",
+    };
+    const notifications = [
+        {
+            "formattedDate": "вторник(22 марта 2022 г.)",
+            "data": [
+                {
+                    "description": 'fcdsf dsv fd xzcx zxc dss dks c dscj dskc ds  d ds  dsh dhk dsj dsj dsh dhjs dsj',
+                    "time": "10:20"
+                }]
+        },
+        {
+            "formattedDate": "вторник(24 марта 2022 г.)",
+            "data": [
+                {
+                    "description": 'fcdsf dsv fd',
+                    "time": "10:20"
+                }]
+        }
+    ];
+    const document = {
+        html: html,
+        data: {
+            notifications,
+        },
+        path: "./public/files/calendar.pdf",
+        type: "",
+    };
+
+    return pdf.create(document, options);
+}
+module.exports = { uploadFile, uploadPdf };

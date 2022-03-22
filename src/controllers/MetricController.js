@@ -58,7 +58,7 @@ export default {
                 }
             }
             const formatted = filtered.map((it) => {
-                return { ...it.fields, createdAt: it.createdAt, id: it.id }
+                return { ...it.fields, date: it.createdAt, id: it.id }
             });
             const result = formatData(formatted);
 
