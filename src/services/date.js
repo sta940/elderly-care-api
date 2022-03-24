@@ -118,6 +118,7 @@ export function getMedicineSchedule(data, period) {
         7: []
     }
     data.forEach((it) => {
+        if (!it.days) return;
         it.days.forEach((day) => {
             weekMap[day].push(it);
         })
