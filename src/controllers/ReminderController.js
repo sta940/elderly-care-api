@@ -122,7 +122,12 @@ export default {
 
   async uploadFile(req, res) {
     try {
-      const reminders = await getRemindersParser(req.user);
+      const { period } = req.body;
+      if (period && !periods.includes(period)) {
+        return res.status(401).send({message: 'Неверный период'});
+      }
+
+      const reminders = await getRemindersParser(req.user, period);
       await uploadPdf(reminders);
       const today = moment().locale('ru').format('L');
       const file = {
