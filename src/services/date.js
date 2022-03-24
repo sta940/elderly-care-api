@@ -93,6 +93,7 @@ export function formatData(items) {
         formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
         const formattedArr = arr.map((it) => {
             let time = moment(it.date).add(3, 'hours').locale('ru').format('LT');
+            time = time.length === 4 ? `0${time}` : time;
             return {...it, time}
         })
         res.push({
@@ -128,31 +129,33 @@ export function getMedicineSchedule(data, period) {
         const weekDay = date.format('dd');
         const dayKey = week.indexOf(weekDay) + 1;
 
-        let formattedDate = date.format('LLLL');
-        const textDateArr = formattedDate.split(', ');
-        formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
+        if (weekMap[dayKey].length !== 0) {
+            let formattedDate = date.format('LLLL');
+            const textDateArr = formattedDate.split(', ');
+            formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
 
-        res.push({
-            formattedDate,
-            data: weekMap[dayKey].sort((a,b) => {
-                const time1 = a.time.split(':');
-                const time2 = b.time.split(':');
-                if (time1[0] < time2[0]) {
-                    return -1;
-                }
-                if (time1[0] > time2[0]) {
-                    return 1;
-                } else {
-                    if (time1[1] < time2[1]) {
+            res.push({
+                formattedDate,
+                data: weekMap[dayKey].sort((a,b) => {
+                    const time1 = a.time.split(':');
+                    const time2 = b.time.split(':');
+                    if (time1[0] < time2[0]) {
                         return -1;
                     }
-                    if (time1[1] > time2[1]) {
+                    if (time1[0] > time2[0]) {
                         return 1;
+                    } else {
+                        if (time1[1] < time2[1]) {
+                            return -1;
+                        }
+                        if (time1[1] > time2[1]) {
+                            return 1;
+                        }
+                        return 0;
                     }
-                    return 0;
-                }
+                })
             })
-        })
+        }
     }
     return res;
 }

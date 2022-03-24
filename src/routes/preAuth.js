@@ -8,7 +8,6 @@ export default (app) => {
     app.post('/login', AuthController.signIn);
     app.get('/verify/:token', AuthController.verify);
     app.post('/upload', upload.single("image"), FileController.uploadSingle);
-    app.post('/test', FileController.uploadPdf);
 
     app.get('/intro', AppController.getIntro);
     app.get('/introInstructions', AppController.getIntroInstruction);

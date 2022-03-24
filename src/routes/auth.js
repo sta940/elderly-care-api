@@ -20,4 +20,5 @@ export default (app) => {
     app.post('/reminders', ReminderController.getReminders);
     app.put('/reminder', ReminderController.changeReminder)
     app.delete('/reminder', ReminderController.deleteReminder)
+    app.post('/importReminders', ReminderController.uploadFile)
 };
