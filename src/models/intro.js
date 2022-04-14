@@ -14,9 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Intro.init({
-    image: DataTypes.STRING,
-    title: DataTypes.STRING,
-    description: DataTypes.STRING
+    src: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Intro',

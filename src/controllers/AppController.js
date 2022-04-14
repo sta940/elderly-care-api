@@ -6,7 +6,7 @@ export default {
     async getIntro(req, res) {
         try {
             const intro = await Intro.findAll();
-            return res.status(200).send({message: null, data: { intro }});
+            return res.status(200).send({message: null, data: { intro: intro[0] }});
         } catch (e) {
             console.log(e);
             return res.status(500).send('Ошибка сервера');
