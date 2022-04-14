@@ -14,10 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Quality.init({
-    image: DataTypes.STRING,
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    files: DataTypes.JSON
+    src: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Quality',
