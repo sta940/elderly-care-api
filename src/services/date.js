@@ -135,9 +135,16 @@ export function getMedicineSchedule(data, period) {
             const textDateArr = formattedDate.split(', ');
             formattedDate = textDateArr[0] + '(' + textDateArr[1] + ')';
 
+            const items = weekMap[dayKey].map((it) => {
+                const item = it.dataValues;
+                const time = item.time.split(':');
+                date.set("hour", Number(time[0]) + 3).set("minute", time[1]).set("second", 0);
+                return { ...item, dateTime: date }
+            })
+
             res.push({
                 formattedDate,
-                data: weekMap[dayKey].sort((a,b) => {
+                data: items.sort((a,b) => {
                     const time1 = a.time.split(':');
                     const time2 = b.time.split(':');
                     if (time1[0] < time2[0]) {
