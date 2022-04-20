@@ -138,7 +138,7 @@ export function getMedicineSchedule(data, period) {
             const items = weekMap[dayKey].map((it) => {
                 const item = it.dataValues;
                 const time = item.time.split(':');
-                date.set("hour", Number(time[0]) + 3).set("minute", time[1]).set("second", 0);
+                date.set("hour", time[0]).set("minute", time[1]).set("second", 0);
                 return { ...item, dateTime: date }
             })
 
