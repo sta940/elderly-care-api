@@ -1,6 +1,7 @@
 import AuthController from '../controllers/AuthController.js'
 import FileController from '../controllers/FileController.js'
 import AppController from '../controllers/AppController.js'
+import SurveyController from '../controllers/SurveyController'
 import upload from '../services/multer';
 
 export default (app) => {
@@ -15,5 +16,7 @@ export default (app) => {
     app.get('/caseManagement', AppController.getCaseManagement);
     app.get('/quality', AppController.getQuality);
     app.get('/info', AppController.getInfo);
+
+    app.post('/survey', SurveyController.getSurveyResult);
 
 };

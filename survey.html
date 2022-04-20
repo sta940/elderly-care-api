@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body style="font-size: 10px;">
+<div style="padding: 40px">
+    <div style="align-items: center;flex-direction: column;text-align: center;">
+        <img src="data:image/png;base64,{{logo}}"/>
+        <div>Elderly Care</div>
+        <div>План содействия в оказании помощи пожилому человеку, основанный на индивидуальной оценке потребностей (на каждой странице отчета)</div>
+        <div>{{today}}</div>
+    </div>
+    <div style="margin-top: 40px">
+        <div style="font-size: 10px;text-align: justify;">
+            Данный документ создан с помощь приложения “Elderly Care” на основании результатов индивидуальной оценки зависимости пожилого человека от постороннего ухода и потребности в услугах и поддержке.
+            Ниже приведены рекомендуемые мероприятия для составления плана содействия.
+        </div>
+        <div style="text-align: center;font-style: italic;margin-top: 20px;">
+            Настоящий документ носит рекомендательный характер
+        </div>
+    </div>
+    <div style="margin-top: 20px;">
+        <div>Имя: {{user.name}} {{user.surname}}</div>
+        <div>Пол: {{user.gender}}</div>
+        <div>Возраст: {{user.age}}</div>
+    </div>
+    {{#each genericRecommendations}}
+    <div style="margin-top: 40px;">
+        <h3 style="text-align: center; margin-bottom: 10px">{{this.title}}</h3>
+        {{#ifCond this.isList "!==" true}}
+        <div style="text-align: center;">{{this.groupNumber}}-я группа нуждаемости</div>
+        <div style="text-align: justify;">{{this.content}}</div>
+        {{/ifCond}}
+        {{#ifCond this.isList "===" true}}
+        <ul style="padding-left: 15px;">
+            {{#each this.content}}
+            <li>{{this}}</li>
+            {{/each}}
+        </ul>
+        {{/ifCond}}
+    </div>
+    {{/each}}
+    {{#each blocks}}
+    <div style="margin-top: 40px;">
+        <div style="text-align: center;">
+            <h2>БЛОК "{{this.title}}"</h2>
+            <h3>Рекомендации по экстренной помощи</h3>
+            {{#each this.emergency}}
+            <div style="color: red">{{this}}</div>
+            {{/each}}
+        </div>
+        {{#each this.recommendations}}
+        <div style="margin-top: 10px">
+            <h3 style="text-align: center;">{{this.title}}</h3>
+            <ul style="padding-left: 15px;">
+                {{#each this.list}}
+                <li>{{this}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/each}}
+    </div>
+    {{/each}}
+</div>
+</div>
+</body>
+</html>
