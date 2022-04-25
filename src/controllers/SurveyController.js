@@ -49,8 +49,8 @@ export default {
         surveyData = await Survey.findOne({where: { key: 'survey2' }});
       }
       return res.status(200).send({ data: {
-          surveyData,
-          interpretationData: interpData
+          surveyData: surveyData.meta,
+          interpretationData: interpData.meta
         } });
     } catch (e) {
       console.log(e);
