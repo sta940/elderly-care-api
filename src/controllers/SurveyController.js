@@ -38,6 +38,26 @@ function getRangeKey(key, sum, rec) {
 }
 
 export default {
+  async getSurvey(req, res) {
+    try {
+      const { role } = req.user;
+      let surveyData, interpData = null;
+      if (role === 'social') {
+        surveyData = await Survey.findOne({where: { key: 'survey1' }});
+        interpData = await Survey.findOne({where: { key: 'interQuest1' }});
+      } else {
+        surveyData = await Survey.findOne({where: { key: 'survey2' }});
+      }
+      return res.status(200).send({ data: {
+          surveyData,
+          interpretationData: interpData
+        } });
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send('Ошибка сервера');
+    }
+  },
+
   async getSurveyResult(req, res) {
     try {
       const { answers } = req.body;

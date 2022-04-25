@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
         if (!user) {
             return res.status(401).send({message: 'Пользователь не найден'});
         }
-        req.user = user;
+        req.user = user.dataValues;
         next();
     } catch {
         res.status(401).send({message: 'Invalid token'});

@@ -2,6 +2,7 @@ import UserController from '../controllers/UserController.js'
 import MetricController from "../controllers/MetricController";
 import MedicineController from "../controllers/MedicineController";
 import ReminderController from "../controllers/ReminderController";
+import SurveyController from "../controllers/SurveyController";
 
 export default (app) => {
     app.get('/user', UserController.userInfo);
@@ -21,4 +22,7 @@ export default (app) => {
     app.put('/reminder', ReminderController.changeReminder)
     app.delete('/reminder', ReminderController.deleteReminder)
     app.post('/importReminders', ReminderController.uploadFile)
+
+    app.post('/survey', SurveyController.getSurveyResult);
+    app.get('/survey', SurveyController.getSurvey);
 };
