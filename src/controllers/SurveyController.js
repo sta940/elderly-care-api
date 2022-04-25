@@ -50,7 +50,7 @@ export default {
       }
       return res.status(200).send({ data: {
           surveyData: surveyData.meta,
-          interpretationData: interpData.meta
+          interpretationData: interpData?.meta
         } });
     } catch (e) {
       console.log(e);
