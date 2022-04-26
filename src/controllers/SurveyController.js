@@ -1,5 +1,9 @@
 import model from '../models';
-import {uploadSurveyPdf} from "../services/s3";
+import {uploadFile, uploadPdf, uploadSurveyPdf} from "../services/s3";
+import moment from "moment";
+import util from "util";
+import fs from "fs";
+const unlinkFile = util.promisify(fs.unlink);
 
 const { Survey } = model;
 
@@ -37,6 +41,25 @@ function getRangeKey(key, sum, rec) {
   return interRange;
 }
 
+function checkAnswer(data, answers) {
+  const result = [];
+  data.forEach((it) => {
+    if (it.answers) {
+      const answersKeys = Object.keys(it.answers);
+      for (let i=0; i < answersKeys.length; i++) {
+        const ansKey = answersKeys[i];
+        if(it.answers[ansKey].includes(answers[ansKey])) {
+          result.push(it.text);
+          break;
+        }
+      }
+    } else {
+      result.push(it.text);
+    }
+  })
+  return result;
+}
+
 export default {
   async getSurvey(req, res) {
     try {
@@ -60,8 +83,12 @@ export default {
 
   async getSurveyResult(req, res) {
     try {
-      const { answers } = req.body;
-      console.log(answers)
+      const { answers, name, age, gender } = req.body;
+
+      const recommendations = [];
+      const interpretations = [];
+      const user = { name, age, gender };
+
       const surveyData = await Survey.findOne({where: { key: 'survey1' }});
       const interRecData = await Survey.findOne({where: { key: 'interRec1' }});
 
@@ -80,18 +107,45 @@ export default {
       });
 
       const parsedSurvey = parseSurvey(surveyData.meta);
-      console.log(interRecData.meta)
 
       const keys = ["block1", "block2"];
-      const result = [];
       keys.forEach((key) => {
         const range = getRangeKey(key, sum, interRecData.meta.blocks);
         const data = interRecData.meta.blocks[key][range];
-        result.push({
+        recommendations.push({
           groupNumber: data.groupNumber,
           content: data.main,
-          title: parsedSurvey[key].title
+          title: parsedSurvey[key].title,
         });
+
+        const med = checkAnswer(data.med, answers);
+        const social = checkAnswer(data.social, answers);
+        const env = checkAnswer(data.env, answers);
+        const common = checkAnswer(data.common, answers);
+
+        const resObj = {
+          title: parsedSurvey[key].title,
+          emergency: [],
+          recommendations: [
+            {
+              title: "Медицинская помощь",
+              list: med
+            },
+            {
+              title: "Социальные услуги ",
+              list: social
+            },
+            {
+              title: "Работа с окружением",
+              list: env
+            },
+            {
+              title: "Общие рекоммендации ",
+              list: common
+            }
+          ]
+        };
+        interpretations.push(resObj);
       });
 
       const block3 = parsedSurvey["block3"];
@@ -102,14 +156,28 @@ export default {
           list.push(block3.questions[key]);
         }
       });
-      result.push({
+      recommendations.push({
         content: list,
         isList: true,
         title: parsedSurvey["block3"].title
       });
 
+      await uploadSurveyPdf(user , recommendations, interpretations);
 
-      return res.status(200).send({ data: result });
+      const today = moment().locale('ru').format('L');
+      const file = {
+        path: "public/files/survey.pdf",
+        filename: `опрос(${today}).pdf`
+      }
+      const result = await uploadFile(file);
+      await unlinkFile(file.path);
+
+      return res.status(200).send({message: null, data: {
+          filename: file.filename,
+          link: result.Location
+        }});
+
+      // return res.status(200).send({interpretations});
     } catch (e) {
       console.log(e);
       return res.status(500).send('Ошибка сервера');
