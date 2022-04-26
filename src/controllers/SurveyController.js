@@ -83,11 +83,10 @@ export default {
 
   async getSurveyResult(req, res) {
     try {
-      const { answers, name, age, gender } = req.body;
+      const { answers, user } = req.body;
 
       const recommendations = [];
       const interpretations = [];
-      const user = { name, age, gender };
 
       const surveyData = await Survey.findOne({where: { key: 'survey1' }});
       const interRecData = await Survey.findOne({where: { key: 'interRec1' }});
