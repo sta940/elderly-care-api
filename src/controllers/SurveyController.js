@@ -43,20 +43,22 @@ function getRangeKey(key, sum, rec) {
 
 function checkAnswer(data, answers) {
   const result = [];
-  data.forEach((it) => {
-    if (it.answers) {
-      const answersKeys = Object.keys(it.answers);
-      for (let i=0; i < answersKeys.length; i++) {
-        const ansKey = answersKeys[i];
-        if(it.answers[ansKey].includes(answers[ansKey])) {
-          result.push(it.text);
-          break;
+  if (data) {
+    data.forEach((it) => {
+      if (it.answers) {
+        const answersKeys = Object.keys(it.answers);
+        for (let i=0; i < answersKeys.length; i++) {
+          const ansKey = answersKeys[i];
+          if(it.answers[ansKey].includes(answers[ansKey])) {
+            result.push(it.text);
+            break;
+          }
         }
+      } else {
+        result.push(it.text);
       }
-    } else {
-      result.push(it.text);
-    }
-  })
+    })
+  }
   return result;
 }
 
