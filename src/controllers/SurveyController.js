@@ -86,6 +86,14 @@ export default {
   async getSurveyResult(req, res) {
     try {
       const { answers, user } = req.body;
+      const { role } = req.user;
+
+      if (role === 'caring') {
+        return res.status(200).send({message: null, data: {
+            filename: 'опрос(27.04.2022).pdf',
+            link: 'https://elderlycare22.s3.eu-west-2.amazonaws.com/%D0%BE%D0%BF%D1%80%D0%BE%D1%81%2827.04.2022%29.pdf'
+          }});
+      }
 
       const recommendations = [];
       const interpretations = [];
