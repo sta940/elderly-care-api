@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import model from '../models';
 
-const { User } = model;
+const { User, Report } = model;
 
 module.exports = async (req, res, next) => {
     try {
@@ -11,9 +11,12 @@ module.exports = async (req, res, next) => {
         if (!user) {
             return res.status(401).send({message: 'Пользователь не найден'});
         }
+        const reports = await Report.findAll({where: { userId: user.id }});
         req.user = user.dataValues;
+        req.user['reports'] = reports;
         next();
-    } catch {
+    } catch (e) {
+        console.log(e)
         res.status(401).send({message: 'Invalid token'});
     }
 };

@@ -5,7 +5,7 @@ import util from "util";
 import fs from "fs";
 const unlinkFile = util.promisify(fs.unlink);
 
-const { Survey } = model;
+const { Survey, Report } = model;
 
 function parseSurvey(surveyData) {
   const result = {};
@@ -172,6 +172,8 @@ export default {
       }
       const result = await uploadFile(file);
       await unlinkFile(file.path);
+
+      await Report.create({ filename: file.filename, link: result.Location, userId: req.user.id });
 
       return res.status(200).send({message: null, data: {
           filename: file.filename,
