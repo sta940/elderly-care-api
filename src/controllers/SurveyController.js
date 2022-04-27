@@ -49,7 +49,7 @@ function checkAnswer(data, answers) {
         const answersKeys = Object.keys(it.answers);
         for (let i=0; i < answersKeys.length; i++) {
           const ansKey = answersKeys[i];
-          if(it.answers[ansKey].includes(answers[ansKey])) {
+          if(ansKey !== 'special' && it.answers[ansKey].includes(answers[ansKey])) {
             result.push(it.text);
             break;
           }
