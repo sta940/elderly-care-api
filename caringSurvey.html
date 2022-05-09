@@ -26,42 +26,20 @@
         <div>Пол: {{user.gender}}</div>
         <div>Возраст: {{user.age}}</div>
     </div>
-    {{#each genericRecommendations}}
-    <div style="margin-top: 40px;">
-        <h3 style="text-align: center; margin-bottom: 10px">{{this.title}}</h3>
-        {{#ifCond this.isList "!==" true}}
-        <div style="text-align: center;">{{this.groupNumber}}-я группа нуждаемости</div>
-        <div style="text-align: justify;">{{this.content}}</div>
-        {{/ifCond}}
-        {{#ifCond this.isList "===" true}}
-        <ul style="padding-left: 15px;">
-            {{#each this.content}}
-            <li>{{this}}</li>
-            {{/each}}
-        </ul>
-        {{/ifCond}}
-    </div>
-    {{/each}}
     {{#each blocks}}
     <div style="margin-top: 40px;">
         <div style="text-align: center;">
             <h2>БЛОК "{{this.title}}"</h2>
-            {{#ifCond this.emergency.length ">" 0}}
-            <h3>Рекомендации по экстренной помощи</h3>
-            {{#each this.emergency}}
-            <div style="color: red">{{this}}</div>
-            {{/ifCond}}
-            {{/each}}
         </div>
         {{#each this.recommendations}}
             {{#ifCond this.list.length ">" 0}}
             <div style="margin-top: 10px">
                 <h3 style="text-align: center;">{{this.title}}</h3>
-                <ul style="padding-left: 15px;">
-                    {{#each this.list}}
-                    <li>{{this}}</li>
-                    {{/each}}
-                </ul>
+                {{#each this.list}}
+                <div style="padding-bottom:
+
+                 10px;">{{this}}</div>
+                {{/each}}
             </div>
             {{/ifCond}}
         {{/each}}
