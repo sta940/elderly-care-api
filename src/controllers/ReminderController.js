@@ -4,10 +4,11 @@ import {
   filterByNextMonth, filterByNextWeek,
   formatData,
 } from '../services/date';
-import {uploadFile, uploadPdf} from "../services/s3";
+import {uploadFile} from "../services/s3";
 import moment from 'moment'
 import util from "util";
 import fs from "fs";
+import {uploadPdf} from "../services/pdf";
 const unlinkFile = util.promisify(fs.unlink);
 
 const { Reminder } = model;
