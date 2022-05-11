@@ -166,7 +166,7 @@ export default {
       const { answers, user } = req.body;
       const { role } = req.user;
       const today = moment().locale('ru').format('L');
-      const filename = `${user.name}(возраст: ${user.age})(${today})`;
+      const filename = `${user.name}(возраст ${user.age})(${today})`;
       const recommendations = [];
       const interpretations = [];
 
