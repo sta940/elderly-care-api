@@ -8,7 +8,7 @@ const { User } = model;
 
 export default {
     async signUp(req, res) {
-        const {email, password, role} = req.body;
+        const {email, password, role, gender} = req.body;
         const roles = ['social', 'caring']
         try {
             if (!roles.includes(role)) {
@@ -18,8 +18,8 @@ export default {
             if (user) {
                 return res.status(401).send({message: 'Пользователь с такими данными уже существует'});
             }
-            await User.create({ email, password, role });
-            const token = jwt.sign({ email, role }, 'TOKEN_SECRET', { expiresIn: '360d' });
+            await User.create({ email, password, role, gender });
+            const token = jwt.sign({ email, role, gender }, 'TOKEN_SECRET', { expiresIn: '360d' });
             sendEmail(email, token, req.hostname);
             return res.status(200).send({message: null, data: { token }});
         } catch(e) {
@@ -36,7 +36,7 @@ export default {
                 return res.status(401).send({message: 'Неверный логин или пароль'});
             }
 
-            const token = jwt.sign({ email, role: user.role }, 'TOKEN_SECRET', { expiresIn: '360d' });
+            const token = jwt.sign({ email, role: user.role, gender: user.gender }, 'TOKEN_SECRET', { expiresIn: '360d' });
             return res.status(200).send({message: null, data: { token }});
         } catch(e) {
             console.log(e);
