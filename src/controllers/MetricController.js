@@ -1,5 +1,12 @@
 import model from '../models';
-import {filterByDay, filterByLastMonth, filterByLastWeek, formatData} from '../services/date';
+import {
+    filterByDay,
+    filterByLastHalfYear,
+    filterByLastMonth,
+    filterByLastWeek,
+    filterByLastYear,
+    formatData
+} from '../services/date';
 
 const { Metric } = model;
 
@@ -7,7 +14,7 @@ const types = ['ap','waist','bmi','glucose',
     'totalCholest', 'goodCholest', 'badCholest',
     'cardiovascular', 'riskFactors'];
 
-const periods = ['day', 'week', 'month'];
+const periods = ['day', 'week', 'month', 'half', 'year'];
 
 export default {
     async addMetric(req, res) {
@@ -51,6 +58,14 @@ export default {
                 }
                 case 'month': {
                     filtered = filterByLastMonth(metrics);
+                    break;
+                }
+                case 'half': {
+                    filtered = filterByLastHalfYear(metrics);
+                    break;
+                }
+                case 'year': {
+                    filtered = filterByLastYear(metrics);
                     break;
                 }
                 default: {

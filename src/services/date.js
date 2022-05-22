@@ -57,6 +57,36 @@ export function filterByLastMonth(launches) {
     })
 }
 
+export function filterByLastHalfYear(launches) {
+    const todayMoment = moment();
+    const monthMoment = todayMoment.clone().add(-182,'days')
+
+    const today = new Date();
+    today.setUTCHours(24, 0, 0, 0);
+    const month = new Date(monthMoment.format());
+    month.setUTCHours(24, 0,0,0);
+    return launches.filter((launch) => {
+        let launchDate = launch.date || launch.createdAt;
+        launchDate = new Date(launchDate);
+        return month.getTime() < launchDate.getTime() && launchDate.getTime() < today.getTime();
+    })
+}
+
+export function filterByLastYear(launches) {
+    const todayMoment = moment();
+    const monthMoment = todayMoment.clone().add(-364,'days')
+
+    const today = new Date();
+    today.setUTCHours(24, 0, 0, 0);
+    const month = new Date(monthMoment.format());
+    month.setUTCHours(24, 0,0,0);
+    return launches.filter((launch) => {
+        let launchDate = launch.date || launch.createdAt;
+        launchDate = new Date(launchDate);
+        return month.getTime() < launchDate.getTime() && launchDate.getTime() < today.getTime();
+    })
+}
+
 export function filterByNextMonth(launches) {
     const todayMoment = moment();
     const monthMoment = todayMoment.clone().add(30,'days')

@@ -5,7 +5,7 @@ import fs from 'fs';
 const html = fs.readFileSync("template.html", "utf8");
 const surveyHtml = fs.readFileSync("survey.html", "utf8");
 const caringSurveyHtml = fs.readFileSync("caringSurvey.html", "utf8");
-const bitmap = fs.readFileSync(__dirname + "/images/logo_58_58.png");
+const bitmap = fs.readFileSync(__dirname + "/images/logo.png");
 const logo = bitmap.toString('base64');
 
 function uploadPdf(reminders) {
