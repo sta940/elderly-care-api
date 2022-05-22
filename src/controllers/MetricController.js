@@ -93,7 +93,11 @@ export default {
             if (!metric) {
                 return res.status(404).send('Данные не найдены');
             }
-            await metric.update({ fields })
+            if (metric.type === 'riskFactors' && fields.factors.length === 0) {
+                await Metric.destroy({where: { id: id }});
+            } else {
+                await metric.update({ fields });
+            }
             return res.status(200).send({message: null});
         } catch (e) {
             console.log(e);
