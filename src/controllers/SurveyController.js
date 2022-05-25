@@ -217,10 +217,14 @@ export default {
 
         Object.keys(answers).forEach((key) => {
           if (key.includes("block1")) {
-            sum.block1 += answers[key];
+            if(Number.isInteger(answers[key])) {
+              sum.block1 += answers[key];
+            }
           }
           if (key.includes("block2")) {
-            sum.block2 += answers[key];
+            if(Number.isInteger(answers[key])) {
+              sum.block2 += answers[key];
+            }
           }
         });
 
@@ -233,6 +237,7 @@ export default {
           const filteredRec = filterRecommendations(sortedRec, answers);
           if (key !== "block3") {
             const range = getRangeKey(key, sum, interRecData.meta.blocks);
+            console.log(range)
             const data = interRecData.meta.blocks[key][range];
             recommendations.push({
               groupNumber: data.groupNumber,

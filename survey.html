@@ -50,8 +50,8 @@
             <h3>Рекомендации по экстренной помощи</h3>
             {{#each this.emergency}}
             <div style="color: red">{{this}}</div>
-            {{/ifCond}}
             {{/each}}
+            {{/ifCond}}
         </div>
         {{#each this.recommendations}}
             {{#ifCond this.list.length ">" 0}}
