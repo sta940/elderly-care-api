@@ -66,14 +66,13 @@ export default {
 
             const user = await User.findOne({where: { email: email }});
             if (!user) {
-                return res.status(200).send('Почта не была подтверждена, запросите новое письмо');
+                return res.status(404).send('Почта не была подтверждена, запросите новое письмо');
             }
 
             sendEmail(email, '', req.hostname);
             return res.status(200).send({});
         } catch (e) {
-            console.log(e);
-            return res.status(200).send('Почта не была подтверждена, запросите новое письмо');
+            return res.status(401).send('Почта не была подтверждена, запросите новое письмо');
         }
     },
 
@@ -91,7 +90,7 @@ export default {
             return res.status(200).send({});
         } catch (e) {
             console.log(e);
-            return res.status(200).send('Почта не была подтверждена, запросите новое письмо');
+            return res.status(401).send('Почта не была подтверждена, запросите новое письмо');
         }
     },
 }
