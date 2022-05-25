@@ -15,7 +15,7 @@ const sendEmail = (email, token, host, cb) => {
         from: 'info@basw-ngo.by',
         to: email,
         subject: 'ElderlyCare - Восстановление пароля',
-        text: 'Для восстановления пароля, пожалуйста перейдите по ссылке: ' + `http://${host}/reset?${email}`,
+        text: 'Для восстановления пароля, пожалуйста перейдите по ссылке: ' + `http://${host}/reset?email=${email}`,
     };
     transporter.sendMail(mailData, cb);
 };
