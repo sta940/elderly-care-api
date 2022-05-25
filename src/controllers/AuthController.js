@@ -52,8 +52,43 @@ export default {
             if (!user) {
                 return res.status(200).send('Почта не была подтверждена, запросите новое письмо');
             }
-            await user.update({ isVerified: true })
+            await user.update({ isVerified: true });
             return res.status(200).send('Ваша почта успешно подтверждена!!!');
+        } catch (e) {
+            console.log(e);
+            return res.status(200).send('Почта не была подтверждена, запросите новое письмо');
+        }
+    },
+
+    async forgotPassword(req, res) {
+        try {
+            const { email } = req.body;
+
+            const user = await User.findOne({where: { email: email }});
+            if (!user) {
+                return res.status(200).send('Почта не была подтверждена, запросите новое письмо');
+            }
+
+            sendEmail(email, '', req.hostname);
+            return res.status(200).send({});
+        } catch (e) {
+            console.log(e);
+            return res.status(200).send('Почта не была подтверждена, запросите новое письмо');
+        }
+    },
+
+    async changePassword(req, res) {
+        try {
+            const { email, password } = req.query;
+
+            const user = await User.findOne({where: { email: email }});
+            if (!user) {
+                return res.status(404).send('Почта не была подтверждена, запросите новое письмо');
+            }
+
+            await user.update({ password: password });
+
+            return res.status(200).send({});
         } catch (e) {
             console.log(e);
             return res.status(200).send('Почта не была подтверждена, запросите новое письмо');

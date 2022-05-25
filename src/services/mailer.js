@@ -12,10 +12,10 @@ const transporter = nodemailer.createTransport({
 
 const sendEmail = (email, token, host, cb) => {
     const mailData = {
-        from: 'sta26iap@gmail.com',
+        from: 'info@basw-ngo.by',
         to: email,
-        subject: 'Верификация аккаунта',
-        text: 'Для подтверждения вашей почты, пожадуйста перейдите по ссылке: ' + `http://${host}:5000/verify/` + token,
+        subject: 'ElderlyCare - Восстановление пароля',
+        text: 'Для восстановления пароля, пожалуйста перейдите по ссылке: ' + `http://${host}/reset?${email}`,
     };
     transporter.sendMail(mailData, cb);
 };
