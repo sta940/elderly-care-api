@@ -6,7 +6,7 @@ import fs from "fs";
 import { uploadSurveyPdf, uploadCaringSurveyPdf } from "../services/pdf";
 const unlinkFile = util.promisify(fs.unlink);
 
-const { Survey, Report } = model;
+const { Survey, Report, ReportAnswer } = model;
 const specialFields = ["rec1.3.5.1", "rec2.1.2.3", "rec2.1.3.1", "rec2.3.10", "rec2.3.11", "rec2.3.13.1", "rec2.3.13.2", "rec3.1.3.5", "rec3.1.3.6", "rec3.1.3.7", "rec3.1.3.8",  "rec3.1.4.1", "rec3.1.4.2", "rec3.1.5.1"];
 
 function parseSurvey(surveyData, keys) {
@@ -164,11 +164,13 @@ export default {
   async getSurveyResult(req, res) {
     try {
       const { answers, user } = req.body;
-      const { role } = req.user;
+      const { role, id: userId } = req.user;
       const today = moment().locale('ru').format('L');
       const filename = `${user.name}(возраст ${user.age})(${today})`;
       const recommendations = [];
       const interpretations = [];
+
+      const reportAnswer  = await ReportAnswer.create({ userId: userId, answers: answers});
 
       if (role === 'caring') {
         const surveyData = await Survey.findOne({where: { key: 'survey2' }});
@@ -309,6 +311,7 @@ export default {
 
       await Report.create({ filename: file.filename, link: result.Location, userId: req.user.id });
 
+      await reportAnswer.update({ completed: true });
       return res.status(200).send({message: null, data: {
           filename: file.filename,
           link: result.Location
