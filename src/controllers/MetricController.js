@@ -4,7 +4,7 @@ import {
     filterByLastHalfYear,
     filterByLastMonth,
     filterByLastWeek,
-    filterByLastYear,
+    filterByLastYear, filterDayForChart, filterForChart, filterWeekMonthForChart,
     formatData
 } from '../services/date';
 
@@ -72,13 +72,35 @@ export default {
                     filtered = metrics;
                 }
             }
+
             const formatted = filtered.map((it) => {
                 return { ...it.fields, date: it.createdAt, id: it.id }
             });
             const result = formatData(formatted);
 
+            let chartData;
+            switch (period) {
+                case 'day': {
+                    chartData = filterDayForChart(result, type);
+                    break;
+                }
+                case 'week': {
+                    chartData = filterWeekMonthForChart(result, type);
+                    break;
+                }
+                case 'month': {
+                    chartData = filterWeekMonthForChart(result, type);
+                    break;
+                }
+                default: {
+                    filterForChart();
+                    filtered = metrics;
+                }
+            }
+
             return res.status(200).send({message: null, data: {
-                    metrics: result.reverse()
+                    metrics: result.reverse(),
+                    chartData: chartData
                 }});
         } catch (e) {
             console.log(e);

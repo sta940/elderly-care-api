@@ -197,3 +197,74 @@ export function getMedicineSchedule(data, period) {
     }
     return res;
 }
+
+export function filterDayForChart(values, type) {
+    if (values.length === 0) {
+        return [];
+    }
+    switch (type) {
+        case 'ap': {
+            const res1 = [], res2 = [];
+            values[0].data.forEach((it) => {
+                res1.push({x: it.time, y: Number(it.systolic)});
+                res2.push({x: it.time, y: Number(it.distolic)})
+            });
+            return [res1, res2];
+        }
+        case 'waist': {
+            const res1 = [];
+            values[0].data.forEach((it) => {
+                res1.push({x: it.time, y: Number(it.circle)});
+            });
+            return [res1];
+        }
+    }
+}
+
+export function filterWeekMonthForChart(values, type) {
+    if (values.length === 0) {
+        return [];
+    }
+    switch (type) {
+        case 'ap': {
+            const res1 = [], res2 = [];
+            values.forEach((val) => {
+                let minSis = 0, maxSis = 0;
+                let minDis = 0, maxDis = 0;
+                const date = moment(val.data[0].date).locale('ru');
+                const splitDate = date.format('L').split('.');
+                const formattedDate = splitDate[0] + '.' + splitDate[1];
+                val.data.forEach((it) => {
+                    if (Number(it.distolic) > maxDis) {
+                        maxDis = Number(it.distolic);
+                    }
+                    if (Number(it.distolic) < minDis || minDis === 0) {
+                        minDis = Number(it.distolic);
+                    }
+                    if (Number(it.systolic) > maxSis) {
+                        maxSis = Number(it.systolic);
+                    }
+                    if (Number(it.systolic) < minSis || minSis === 0) {
+                        minSis = Number(it.systolic);
+                    }
+                })
+                res1.push({x: formattedDate, y: minSis});
+                res1.push({x: formattedDate, y: maxSis});
+                res2.push({x: formattedDate, y: minDis});
+                res2.push({x: formattedDate, y: maxDis});
+            })
+            return [res1, res2];
+        }
+        case 'waist': {
+            const res1 = [];
+            values[0].data.forEach((it) => {
+                res1.push({x: it.time, y: Number(it.circle)});
+            });
+            return [res1];
+        }
+    }
+}
+
+export function filterForChart(values, type) {
+    console.log(values)
+}
