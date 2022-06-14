@@ -209,7 +209,7 @@ export function filterDayForChart(values, type) {
                 res1.push({x: it.time, y: Number(it.systolic)});
                 res2.push({x: it.time, y: Number(it.distolic)})
             });
-            return [res1, res2];
+            return [[res1], [res2]];
         }
         case 'waist': {
             const res1 = [];
