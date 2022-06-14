@@ -93,8 +93,7 @@ export default {
                     break;
                 }
                 default: {
-                    filterForChart();
-                    filtered = metrics;
+                    chartData = filterWeekMonthForChart(result, type);
                 }
             }
 
