@@ -248,10 +248,8 @@ export function filterWeekMonthForChart(values, type) {
                         minSis = Number(it.systolic);
                     }
                 })
-                res1.push({x: formattedDate, y: minSis});
-                res1.push({x: formattedDate, y: maxSis});
-                res2.push({x: formattedDate, y: minDis});
-                res2.push({x: formattedDate, y: maxDis});
+                res1.push([{x: formattedDate, y: minSis}, {x: formattedDate, y: maxSis}]);
+                res2.push([{x: formattedDate, y: minDis}, {x: formattedDate, y: maxDis}]);
             })
             return [res1, res2];
         }
