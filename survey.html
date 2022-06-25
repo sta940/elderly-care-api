@@ -23,7 +23,7 @@
     </div>
     <div style="margin-top: 20px;">
         <div>Имя: {{user.name}}</div>
-        <div>Пол: {{user.gender}}</div>
+        <div>Пол: {{#ifCond user.gender "===" 1}}женщина{{/ifCond}}{{#ifCond user.gender "===" 2}}мужчина{{/ifCond}}</div>
         <div>Возраст: {{user.age}}</div>
     </div>
     {{#each genericRecommendations}}
