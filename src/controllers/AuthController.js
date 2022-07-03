@@ -20,7 +20,6 @@ export default {
             }
             await User.create({ email, password, role, gender });
             const token = jwt.sign({ email, role, gender }, 'TOKEN_SECRET', { expiresIn: '360d' });
-            sendEmail(email, token, req.hostname);
             return res.status(200).send({message: null, data: { token }});
         } catch(e) {
             console.log(e);

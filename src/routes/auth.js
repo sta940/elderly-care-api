@@ -6,6 +6,7 @@ import SurveyController from "../controllers/SurveyController";
 
 export default (app) => {
     app.get('/user', UserController.userInfo);
+    app.delete('/removeUser', UserController.deleteUser);
 
     app.post('/metric', MetricController.addMetric);
     app.post('/metrics', MetricController.getMetrics);
