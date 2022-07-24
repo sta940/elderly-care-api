@@ -193,11 +193,29 @@ export default {
               recommendations: [
                 {
                   title: "Рекомендации для родственников",
-                  list: main
+                  list: main.map((it) => {
+                    if (it.indexOf('-tcsonLink-') !== -1) {
+                      const splitRes = it.split('-tcsonLink-');
+                      return { key: "tcson_link", value: splitRes };
+                    } else if (it.indexOf('-psihLink-') !== -1) {
+                      const splitRes = it.split('-psihLink-');
+                      return { key: "psihLink", value: splitRes };
+                    }
+                    return {key: "text", value: it};
+                  })
                 },
                 {
                   title: "Взаимодействие с медицинскими, социальными и иными службами",
-                  list: other
+                  list: other.map((it) => {
+                    if (it.indexOf('-tcsonLink-') !== -1) {
+                      const splitRes = it.split('-tcsonLink-');
+                      return { key: "tcson_link", value: splitRes };
+                    } else if (it.indexOf('-psihLink-') !== -1) {
+                      const splitRes = it.split('-psihLink-');
+                      return { key: "psihLink", value: splitRes };
+                    }
+                    return {key: "text", value: it};
+                  })
                 }
               ]
             };
@@ -239,7 +257,6 @@ export default {
           const filteredRec = filterRecommendations(sortedRec, answers);
           if (key !== "block3") {
             const range = getRangeKey(key, sum, interRecData.meta.blocks);
-            console.log(range)
             const data = interRecData.meta.blocks[key][range];
             recommendations.push({
               groupNumber: data.groupNumber,
