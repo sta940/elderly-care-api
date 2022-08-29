@@ -216,7 +216,7 @@ export function filterDayForChart(values, type) {
             values[0].data.forEach((it) => {
                 res1.push({x: it.time, y: Number(it.circle)});
             });
-            return [res1];
+            return [[res1]];
         }
     }
 }
