@@ -303,7 +303,11 @@ export function filterWeekMonthForChart(values, type) {
                         min = Number(it.circle);
                     }
                 })
-                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                if (values.length > 1) {
+                    res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                } else {
+                    res1.push([{x: formattedDate, y: min}]);
+                }
             })
             return [res1];
         }
@@ -323,7 +327,11 @@ export function filterWeekMonthForChart(values, type) {
                         min = Number(value);
                     }
                 })
-                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                if (values.length > 1) {
+                    res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                } else {
+                    res1.push([{x: formattedDate, y: min}]);
+                }
             })
             return [res1];
         }
@@ -342,7 +350,11 @@ export function filterWeekMonthForChart(values, type) {
                         min = Number(it.value);
                     }
                 })
-                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                if (values.length > 1) {
+                    res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                } else {
+                    res1.push([{x: formattedDate, y: min}]);
+                }
             })
             return [res1];
         }
@@ -361,7 +373,11 @@ export function filterWeekMonthForChart(values, type) {
                         min = Number(it.value);
                     }
                 })
-                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                if (values.length > 1) {
+                    res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                } else {
+                    res1.push([{x: formattedDate, y: min}]);
+                }
             })
             return [res1];
         }
@@ -380,7 +396,11 @@ export function filterWeekMonthForChart(values, type) {
                         min = Number(it.value);
                     }
                 })
-                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                if (values.length > 1) {
+                    res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                } else {
+                    res1.push([{x: formattedDate, y: min}]);
+                }
             })
             return [res1];
         }
@@ -399,7 +419,11 @@ export function filterWeekMonthForChart(values, type) {
                         min = Number(it.value);
                     }
                 })
-                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                if (values.length > 1) {
+                    res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+                } else {
+                    res1.push([{x: formattedDate, y: min}]);
+                }
             })
             return [res1];
         }
