@@ -307,6 +307,102 @@ export function filterWeekMonthForChart(values, type) {
             })
             return [res1];
         }
+        case 'bmi': {
+            const res1 = [];
+            values.forEach((val) => {
+                let min = 0, max = 0;
+                const date = moment(val.data[0].date).locale('ru');
+                const splitDate = date.format('L').split('.');
+                const formattedDate = splitDate[0] + '.' + splitDate[1];
+                val.data.forEach((it) => {
+                    const value = it.weight / (Math.pow( it.height/100,2)).toFixed(2);
+                    if (Number(value) > max) {
+                        max = Number(value);
+                    }
+                    if (Number(value) < min || min === 0) {
+                        min = Number(value);
+                    }
+                })
+                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+            })
+            return [res1];
+        }
+        case 'glucose': {
+            const res1 = [];
+            values.forEach((val) => {
+                let min = 0, max = 0;
+                const date = moment(val.data[0].date).locale('ru');
+                const splitDate = date.format('L').split('.');
+                const formattedDate = splitDate[0] + '.' + splitDate[1];
+                val.data.forEach((it) => {
+                    if (Number(it.value) > max) {
+                        max = Number(it.value);
+                    }
+                    if (Number(it.value) < min || min === 0) {
+                        min = Number(it.value);
+                    }
+                })
+                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+            })
+            return [res1];
+        }
+        case 'totalCholest': {
+            const res1 = [];
+            values.forEach((val) => {
+                let min = 0, max = 0;
+                const date = moment(val.data[0].date).locale('ru');
+                const splitDate = date.format('L').split('.');
+                const formattedDate = splitDate[0] + '.' + splitDate[1];
+                val.data.forEach((it) => {
+                    if (Number(it.value) > max) {
+                        max = Number(it.value);
+                    }
+                    if (Number(it.value) < min || min === 0) {
+                        min = Number(it.value);
+                    }
+                })
+                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+            })
+            return [res1];
+        }
+        case 'goodCholest': {
+            const res1 = [];
+            values.forEach((val) => {
+                let min = 0, max = 0;
+                const date = moment(val.data[0].date).locale('ru');
+                const splitDate = date.format('L').split('.');
+                const formattedDate = splitDate[0] + '.' + splitDate[1];
+                val.data.forEach((it) => {
+                    if (Number(it.value) > max) {
+                        max = Number(it.value);
+                    }
+                    if (Number(it.value) < min || min === 0) {
+                        min = Number(it.value);
+                    }
+                })
+                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+            })
+            return [res1];
+        }
+        case 'badCholest': {
+            const res1 = [];
+            values.forEach((val) => {
+                let min = 0, max = 0;
+                const date = moment(val.data[0].date).locale('ru');
+                const splitDate = date.format('L').split('.');
+                const formattedDate = splitDate[0] + '.' + splitDate[1];
+                val.data.forEach((it) => {
+                    if (Number(it.value) > max) {
+                        max = Number(it.value);
+                    }
+                    if (Number(it.value) < min || min === 0) {
+                        min = Number(it.value);
+                    }
+                })
+                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+            })
+            return [res1];
+        }
     }
 }
 
