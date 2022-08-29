@@ -225,6 +225,34 @@ export function filterDayForChart(values, type) {
             });
             return [[res1]];
         }
+        case 'glucose': {
+            const res1 = [];
+            values[0].data.forEach((it) => {
+                res1.push({x: it.time, y: Number(it.value)});
+            });
+            return [[res1]];
+        }
+        case 'totalCholest': {
+            const res1 = [];
+            values[0].data.forEach((it) => {
+                res1.push({x: it.time, y: Number(it.value)});
+            });
+            return [[res1]];
+        }
+        case 'goodCholest': {
+            const res1 = [];
+            values[0].data.forEach((it) => {
+                res1.push({x: it.time, y: Number(it.value)});
+            });
+            return [[res1]];
+        }
+        case 'badCholest': {
+            const res1 = [];
+            values[0].data.forEach((it) => {
+                res1.push({x: it.time, y: Number(it.value)});
+            });
+            return [[res1]];
+        }
     }
 }
 
