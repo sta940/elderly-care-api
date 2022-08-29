@@ -262,9 +262,21 @@ export function filterWeekMonthForChart(values, type) {
         }
         case 'waist': {
             const res1 = [];
-            values[0].data.forEach((it) => {
-                res1.push({x: it.time, y: Number(it.circle)});
-            });
+            values.forEach((val) => {
+                let min = 0, max = 0;
+                const date = moment(val.data[0].date).locale('ru');
+                const splitDate = date.format('L').split('.');
+                const formattedDate = splitDate[0] + '.' + splitDate[1];
+                val.data.forEach((it) => {
+                    if (Number(it.circle) > max) {
+                        max = Number(it.circle);
+                    }
+                    if (Number(it.circle) < min || min === 0) {
+                        min = Number(it.circle);
+                    }
+                })
+                res1.push([{x: formattedDate, y: min}, {x: formattedDate, y: max}]);
+            })
             return [res1];
         }
     }
