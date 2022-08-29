@@ -218,6 +218,13 @@ export function filterDayForChart(values, type) {
             });
             return [[res1]];
         }
+        case 'bmi': {
+            const res1 = [];
+            values[0].data.forEach((it) => {
+                res1.push({x: it.time, y: (it.weight / (Math.pow( it.height/100,2))).toFixed(2)});
+            });
+            return [[res1]];
+        }
     }
 }
 
