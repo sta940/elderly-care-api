@@ -2,8 +2,8 @@
   "development": {
     "username": "admin",
     "password": "22102018",
-    "database": "elderlyCare",
-    "host": "database.cb7etsry9cny.eu-west-2.rds.amazonaws.com",
+    "database": "test",
+    "host": "database-1.ccsc3woghdpy.us-east-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
