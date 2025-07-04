@@ -3,7 +3,7 @@
     "username": "admin",
     "password": "22102018",
     "database": "elderlyCare",
-    "host": "database-1.cf2ygqe46mek.us-east-1.rds.amazonaws.com",
+    "host": "elderlycare.cbicguiicvrt.eu-central-1.rds.amazonaws.com",
     "dialect": "mysql"
   },
   "test": {
